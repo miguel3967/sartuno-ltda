@@ -1,0 +1,38 @@
+RT-01
+  enable
+ conf t
+hostname RT-01
+banner motd " ATENCAO! APENAS A EMPRESA SARTUNO LTDA. TEM A AUTORIZACAO PARA ACESSAR ESSE EQUIPAMENTO"
+enable secret Sarturno*Enable
+line console 0
+password Sarturno*Console
+login
+no ip domain-lookup
+ip domain-name sarturno.local 
+crypto key generate rsa general-key modulus 1024
+line vty 0 15
+transport input ssh
+password Sarturno*VTY
+login local
+username sarturnoti privilege 15 secret  batata*00
+line console 0
+login local
+exit
+interface g0/1
+description CONECTADA A INTERFACE G0/1 DO SW-02
+interface g0/0
+description CONECTADA A INTERFACE G0/1 DO SW-01
+interface g0/2
+description CONECTADA A INTERFACE G0/1 DO SW-03
+interface g0/1
+ip address 192.168.0.1 255.255.0.0
+no shut
+interface g0/0
+ip address 172.16.15.1 255.255.255.0
+no shut
+interface g0/2
+ip address 172.16.10.1 255.255.255.0
+no shut
+service password-encryption
+exit
+wr
